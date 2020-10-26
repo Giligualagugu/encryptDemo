@@ -98,3 +98,16 @@ fabric.properties
 hs_err_pid*
 .idea/
 target/
+.idea/$CACHE_FILE$
+.idea/.gitignore
+.idea/compiler.xml
+.idea/encodings.xml
+.idea/encryptDemo.iml
+.idea/jarRepositories.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/vcs.xml
+src/test/
+target/classes/META-INF/
+target/classes/application.yaml
+target/generated-sources/
