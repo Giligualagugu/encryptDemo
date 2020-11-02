@@ -12,7 +12,7 @@ public class DemoController {
 
 
     @PostMapping("/demo-enc")
-    public Object testfilter(@RequestBody Object o) {
+    public Map<String, Object> testfilter(@RequestBody Object o) {
 
         System.out.println("controller 收到:" + o);
 
