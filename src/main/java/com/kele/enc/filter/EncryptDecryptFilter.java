@@ -27,6 +27,9 @@ public class EncryptDecryptFilter extends HttpFilter {
     @Override
     protected void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         log.info("filter: decrypt request body ");
+
+        String method = request.getMethod();
+        System.out.println("请求类型:"+method);
         BizRequestWrapper bizRequestWrapper = new BizRequestWrapper(request);
         BizResponseWrapper bizResponseWrapper = new BizResponseWrapper(response);
 
