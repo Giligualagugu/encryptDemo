@@ -75,7 +75,7 @@ public class RequestDemo {
         httpHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON_UTF8));
         HttpEntity<ServerRequestDTO> httpEntity = new HttpEntity<>(serverRequestDTO, httpHeaders);
 
-        String url = "http://localhost:30090/test/test-for-security";// 此接口可以用于联调测试 加密解密和验签流程;
+        String url = "http://localhost:30090/test/for-security";// 此接口可以用于联调测试 加密解密和验签流程;
 
         ResponseEntity<JSONObject> hashMapResponseEntity = restTemplate.postForEntity(url, httpEntity, JSONObject.class);
         JSONObject body = hashMapResponseEntity.getBody();
