@@ -30,7 +30,7 @@ public class RsaAesUtilDemo {
 
         // 默认生成2048长度的秘钥
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
-
+        keyPairGenerator.initialize(1024);
         // 模拟生成客户端的rsa秘钥对;
         KeyPair clientKeyPair = keyPairGenerator.generateKeyPair();
 
