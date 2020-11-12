@@ -8,10 +8,8 @@ import cn.hutool.crypto.asymmetric.KeyType;
 import cn.hutool.crypto.asymmetric.SignAlgorithm;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.nio.charset.StandardCharsets;
@@ -75,27 +73,34 @@ public class RequestDemo {
         httpHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON_UTF8));
         HttpEntity<ServerRequestDTO> httpEntity = new HttpEntity<>(serverRequestDTO, httpHeaders);
 
-        String url = "http://localhost:30090/test/for-security";// 此接口可以用于联调测试 加密解密和验签流程;
+        String url = "http://221.226.82.254:30083/taxloan/test/for-security";// 此接口可以用于联调测试 加密解密和验签流程;
 
         ResponseEntity<JSONObject> hashMapResponseEntity = restTemplate.postForEntity(url, httpEntity, JSONObject.class);
-        JSONObject body = hashMapResponseEntity.getBody();
 
-        System.out.println("响应结果:" + body);
+        if (hashMapResponseEntity.getStatusCode() == HttpStatus.OK) {
+            JSONObject body = hashMapResponseEntity.getBody();
+            System.out.println("响应结果:" + body);
 
-        HttpHeaders responseEntityHeaders = hashMapResponseEntity.getHeaders();
-        String responseAesKey = responseEntityHeaders.getFirst("x-aes-key");
-        String responseSign = responseEntityHeaders.getFirst("x-rsa-sign");
-        System.out.println("响应aeskey:" + responseAesKey);
-        System.out.println("响应签名:" + responseSign);
+            HttpHeaders responseEntityHeaders = hashMapResponseEntity.getHeaders();
+            String responseAesKey = responseEntityHeaders.getFirst("x-aes-key");
+            String responseSign = responseEntityHeaders.getFirst("x-rsa-sign");
+            System.out.println("响应aeskey:" + responseAesKey);
+            System.out.println("响应签名:" + responseSign);
 
-        // 解密aeskey;
-        byte[] decryptAesKey = SecureUtil.rsa(clientPrivateKey, null).decrypt(responseAesKey, KeyType.PrivateKey);
-        String decryptContent = SecureUtil.aes(decryptAesKey).decryptStr(body.getString("result"));
-        System.out.println("响应明文:" + decryptContent);
 
-        // 验证签名
-        boolean verfiy = SecureUtil.sign(SignAlgorithm.MD5withRSA, null, serverPublicKey).verify(decryptContent.getBytes(StandardCharsets.UTF_8), Base64Decoder.decode(responseSign));
-        System.out.println("client 验签结果:" + verfiy);
+            String result = body.getString("result");
+
+            if (StringUtils.isNotBlank(result)) {
+                // 解密aeskey;
+                byte[] decryptAesKey = SecureUtil.rsa(clientPrivateKey, null).decrypt(responseAesKey, KeyType.PrivateKey);
+
+                String decryptContent = SecureUtil.aes(decryptAesKey).decryptStr(result);
+                System.out.println("响应明文:" + decryptContent);
+                // 验证签名
+                boolean verfiy = SecureUtil.sign(SignAlgorithm.MD5withRSA, null, serverPublicKey).verify(decryptContent.getBytes(StandardCharsets.UTF_8), Base64Decoder.decode(responseSign));
+                System.out.println("client 验签结果:" + verfiy);
+            }
+        }
 
 
     }
