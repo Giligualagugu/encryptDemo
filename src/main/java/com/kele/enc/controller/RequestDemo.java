@@ -67,13 +67,13 @@ public class RequestDemo {
         RestTemplate restTemplate = new RestTemplate();
         ServerRequestDTO serverRequestDTO = new ServerRequestDTO(encryptedContent);
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.set("app-id", "1234"); // todo app-id  切换成配置好的;
+        httpHeaders.set("x-app-token", "1234"); // todo app-id  切换成配置好的;
         httpHeaders.set("x-aes-key", encryptedClientAesKey);
         httpHeaders.set("x-rsa-sign", contentSign);
         httpHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON_UTF8));
         HttpEntity<ServerRequestDTO> httpEntity = new HttpEntity<>(serverRequestDTO, httpHeaders);
 
-        String url = "http://221.226.82.254:30083/taxloan/test/for-security";// 此接口可以用于联调测试 加密解密和验签流程;
+        String url = "http://localhost:30082/taxloan/test/for-security";// 此接口可以用于联调测试 加密解密和验签流程;
 
         ResponseEntity<JSONObject> hashMapResponseEntity = restTemplate.postForEntity(url, httpEntity, JSONObject.class);
 
