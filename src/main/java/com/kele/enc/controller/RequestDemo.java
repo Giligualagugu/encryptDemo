@@ -16,6 +16,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class RequestDemo {
 
@@ -31,6 +32,16 @@ public class RequestDemo {
      */
     public static void main(String[] args) throws Exception {
 
+        sendRequest();
+        TimeUnit.MICROSECONDS.sleep(100);
+        sendRequest();
+        TimeUnit.MICROSECONDS.sleep(100);
+        sendRequest();
+        TimeUnit.MICROSECONDS.sleep(100);
+        sendRequest();
+    }
+
+    private static void sendRequest() {
         System.out.println("模拟客户端发送:");
         Map<String, Object> map = new HashMap<>();
         map.put("kele", "heheda~");
@@ -77,6 +88,7 @@ public class RequestDemo {
 
         ResponseEntity<JSONObject> hashMapResponseEntity = restTemplate.postForEntity(url, httpEntity, JSONObject.class);
 
+
         if (hashMapResponseEntity.getStatusCode() == HttpStatus.OK) {
             JSONObject body = hashMapResponseEntity.getBody();
             System.out.println("响应结果:" + body);
@@ -101,8 +113,6 @@ public class RequestDemo {
                 System.out.println("client 验签结果:" + verfiy);
             }
         }
-
-
     }
 
     private static class ServerRequestDTO {
