@@ -33,12 +33,12 @@ public class RequestDemo {
     public static void main(String[] args) throws Exception {
 
         sendRequest();
-        TimeUnit.MICROSECONDS.sleep(100);
+        TimeUnit.MILLISECONDS.sleep(2000);
         sendRequest();
-        TimeUnit.MICROSECONDS.sleep(100);
-        sendRequest();
-        TimeUnit.MICROSECONDS.sleep(100);
-        sendRequest();
+//        TimeUnit.MILLISECONDS.sleep(2000);
+//        sendRequest();
+//        TimeUnit.MILLISECONDS.sleep(2000);
+//        sendRequest();
     }
 
     private static void sendRequest() {
@@ -84,7 +84,8 @@ public class RequestDemo {
         httpHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON_UTF8));
         HttpEntity<ServerRequestDTO> httpEntity = new HttpEntity<>(serverRequestDTO, httpHeaders);
 
-        String url = "http://localhost:30082/taxloan/test/for-security";// 此接口可以用于联调测试 加密解密和验签流程;
+        // String url = "http://localhost:30082/taxloan/test/for-security";// 此接口可以用于联调测试 加密解密和验签流程;
+        String url = "http://localhost:30082/taxloan/v1/ftd/invoice/query";// 此接口可以用于联调测试 加密解密和验签流程;
 
         ResponseEntity<JSONObject> hashMapResponseEntity = restTemplate.postForEntity(url, httpEntity, JSONObject.class);
 
