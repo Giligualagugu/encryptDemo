@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-public class RequestDemo {
+public class RequestDemoClientA {
 
 
     /**
@@ -54,7 +54,7 @@ public class RequestDemo {
         String clientPublicKey = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCUT0UNkYMHelFV2oArsCNRCyVN1k3MuLaG5mzO3hPF1Nf2BR2kQVr5fkruYK1EgleBj09LJbemOBmoPMZVYZEALufMoOLRslyOi2o7D5ImQnCwZJOBnI4V2ZpuuoOocHGiE/FP7nIm3HxLdhVnQDqfviwS/ZagIYgWkDccFG0sGQIDAQAB";
 
         // yzf 的公钥;
-        String serverPublicKey = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCvP3eSaQP5T4T5KahnZdpwUhszBG1kr5kLJD30A7PE8cq1z82fQlI1qpP4Cb8C5T9cB3AbgDsTIa0nyY/ha7ptO/KiPtqksyF5OG3p08pg6QBkvVODR9GeduCbOZoFwSPNNR/z0+NU4l0hZKmdQGyakbwrYn4OLn3mB7thEfttbQIDAQAB";
+        String serverPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAijzM21dNJyhuXPMBhK32VaJXnuwviILTiUnuIg5xBbla1KUnj0Uyb+gipxeMkpWbSCskBf9jVUD+reGOQw6FarwLkOpBs2t1oDyOruKL/kMomouWiQXso7gnL0UcM2mGaYUiDQ5rViETzkX9GQfjJYvYBNt4Yl7cXKipaF8kc1HDTRzUW2rKvQ+Jv9E2EpOd/7t+WeeJnYo7mBexs0rKHiyuYsKP8NwHGOMLXUE/nxJ6Ws6BfSMK6l5vqx30mVJWiWOyQ72h7s138ZwEcJSANRGbwBqA2UpB9YPLFp8vqjWZHofLGv14MvK1+46ylJtkpgYw6GUEQO+6qRq6VNhwLQIDAQAB";
 
         // client对request入参包装  ---start
         // 使用client端私钥生成明文的签名;
@@ -80,7 +80,7 @@ public class RequestDemo {
         RestTemplate restTemplate = new RestTemplate();
         ServerRequestDTO serverRequestDTO = new ServerRequestDTO(encryptedContent);
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.set("x-app-token", "1234"); // todo app-id  切换成配置好的;
+        httpHeaders.set("x-app-token", "38e9e71dd5414f4eb0c8d2d42f5ad8ea"); // todo app-id  切换成配置好的;
         httpHeaders.set("x-aes-key", encryptedClientAesKey);
         httpHeaders.set("x-rsa-sign", contentSign);
         httpHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON_UTF8));
