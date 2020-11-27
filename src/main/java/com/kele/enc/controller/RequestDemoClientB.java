@@ -54,7 +54,7 @@ public class RequestDemoClientB {
         String clientPublicKey = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCUT0UNkYMHelFV2oArsCNRCyVN1k3MuLaG5mzO3hPF1Nf2BR2kQVr5fkruYK1EgleBj09LJbemOBmoPMZVYZEALufMoOLRslyOi2o7D5ImQnCwZJOBnI4V2ZpuuoOocHGiE/FP7nIm3HxLdhVnQDqfviwS/ZagIYgWkDccFG0sGQIDAQAB";
 
         // yzf 的公钥;
-        String serverPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAiZzr9w+Ny8oC0kETRbl9ZaZeVzsK+V4UHtiAI9hW1F96oeOXVThKjQ4QUBtjkAiyEgfEm43VehOOYSC4UekXN9nYiYAfkCS4PNeQ38f6X3ZKWTdhGZiGf/pKfNU2garSYxPbHMPTXzgljz2VfeRCFlEMDRHsW0xV/v/UZ6c6OZh4vRo+XK83Zdt49p4kNVPL3fm/vc9jRmkcG/VmmCTYEdLxKO9t//1BmEOJJtFK09rObDTlna2jEYlZbMzG/IExkGv1TDZiTomyjpJ8wpl77vNx1KjzqJqRSXfqTAQOrr5yN1nRvGBMe3hYL0rC7AVr37j1aaSKOzGLohqjmz2l+wIDAQAB";
+        String serverPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAioxYpFdubWTnreeA1zYQcQwJNAJTJeqYb/UAPJHx5tNFwRz7Uz9JkSMBen8X/svP7zOnmSKl5xBRPNQtRaOuyrMV+QZqHMtiO/iFWcM2/N8cb0KutyY7/Y6J1qAz7OY9G1c+PS6jwjTu/zwDt+D5OyRH/KE6P1sEsCfXB64PTWdaJV26KSCUJIT2gbnro45TrvLQ33R2GvwNBdWXF0UMfCcxBbutR4D+6j9L8jrvZoF2igBIABIN0HKJdBnabbp8lj1zw3DehvO8cDwV+r0f9z6zX15x62wVaPmght/ZQ10R3vC5LjcfCulHz0Bwf5vVPW5yA6TalIS6lz8UXPg57QIDAQAB";
 
         // client对request入参包装  ---start
         // 使用client端私钥生成明文的签名;
@@ -80,7 +80,7 @@ public class RequestDemoClientB {
         RestTemplate restTemplate = new RestTemplate();
         ServerRequestDTO serverRequestDTO = new ServerRequestDTO(encryptedContent);
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.set("x-app-token", "bdd44fa88f3244509d40fcd37017ba44"); // todo app-id  切换成配置好的;
+        httpHeaders.set("x-app-token", "c704f4ed615b47cdafa764041f44affd"); // todo app-id  切换成配置好的;
         httpHeaders.set("x-aes-key", encryptedClientAesKey);
         httpHeaders.set("x-rsa-sign", contentSign);
         httpHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON_UTF8));

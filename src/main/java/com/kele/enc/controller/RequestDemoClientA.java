@@ -34,11 +34,11 @@ public class RequestDemoClientA {
 
         sendRequest();
         TimeUnit.MILLISECONDS.sleep(1000);
-        sendRequest();
-        TimeUnit.MILLISECONDS.sleep(1000);
-        sendRequest();
-        TimeUnit.MILLISECONDS.sleep(1000);
-        sendRequest();
+//        sendRequest();
+//        TimeUnit.MILLISECONDS.sleep(1000);
+//        sendRequest();
+//        TimeUnit.MILLISECONDS.sleep(1000);
+//        sendRequest();
     }
 
     private static void sendRequest() {
@@ -54,7 +54,7 @@ public class RequestDemoClientA {
         String clientPublicKey = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCUT0UNkYMHelFV2oArsCNRCyVN1k3MuLaG5mzO3hPF1Nf2BR2kQVr5fkruYK1EgleBj09LJbemOBmoPMZVYZEALufMoOLRslyOi2o7D5ImQnCwZJOBnI4V2ZpuuoOocHGiE/FP7nIm3HxLdhVnQDqfviwS/ZagIYgWkDccFG0sGQIDAQAB";
 
         // yzf 的公钥;
-        String serverPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAijzM21dNJyhuXPMBhK32VaJXnuwviILTiUnuIg5xBbla1KUnj0Uyb+gipxeMkpWbSCskBf9jVUD+reGOQw6FarwLkOpBs2t1oDyOruKL/kMomouWiQXso7gnL0UcM2mGaYUiDQ5rViETzkX9GQfjJYvYBNt4Yl7cXKipaF8kc1HDTRzUW2rKvQ+Jv9E2EpOd/7t+WeeJnYo7mBexs0rKHiyuYsKP8NwHGOMLXUE/nxJ6Ws6BfSMK6l5vqx30mVJWiWOyQ72h7s138ZwEcJSANRGbwBqA2UpB9YPLFp8vqjWZHofLGv14MvK1+46ylJtkpgYw6GUEQO+6qRq6VNhwLQIDAQAB";
+        String serverPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjEGygZ8jFNPgkFXfP7IaDhf2Uwicl29IedvGDApk0hFIFAIdG7upRuQPoukroMyVYT/JZ9DD7BcQ40rMLthoqFvVQJwt5Xl98CgL4K3LmGuWuO+PvlOsAP1Pdaew/Zw1xZc5MAXJBzaudU968okTwFdv/pH5I0W7qB0DRCaHEsOTP+i7Md8+FMs6kYFBQZLihus2XxXuhhjrD9KZKQK4duRtRuxLM37F/NWukUo+kLMgZpxfw+azlm5KiluifWdaYg0gEtgROFArddAnxKNSXH2tTm7C+mKYwTr9notT/YliLBMojW7IQLTYkx9cUOBeegFc2ga3dQysUbZPpZQB1wIDAQAB";
 
         // client对request入参包装  ---start
         // 使用client端私钥生成明文的签名;
@@ -80,7 +80,7 @@ public class RequestDemoClientA {
         RestTemplate restTemplate = new RestTemplate();
         ServerRequestDTO serverRequestDTO = new ServerRequestDTO(encryptedContent);
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.set("x-app-token", "38e9e71dd5414f4eb0c8d2d42f5ad8ea"); // todo app-id  切换成配置好的;
+        httpHeaders.set("x-app-token", "94944fa85e0846b1b39212103e71567e"); // todo app-id  切换成配置好的;
         httpHeaders.set("x-aes-key", encryptedClientAesKey);
         httpHeaders.set("x-rsa-sign", contentSign);
         httpHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON_UTF8));
