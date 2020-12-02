@@ -21,16 +21,19 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 请求方 initRsaKey() 生成公钥和私钥,  公钥提供给云帐房 生成对应的token和 云帐房公钥;
+ */
 public class RequestDemo {
 
+    // 请求方token,
     static String token = "1817e2ab38c5462aba1e33af01be4879";
-    // 请求方 公私钥; TODO 调用方自行生成 长度为1024;  clientPublicKey 提供给云帐房,  如果使用网页在线生成 请删除制表符和换行符 [ \r\n,  \n ]  ;
+    // 请求方 公私钥;
     static String clientPrivateKey = "MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC8QALIaOr406+9S0LB1RQPG3e68hg2qD8RDHtGx1AJnex2UVGmm73UMRrw5CfTxuuc3i9yUz8hGwSLfRpehzCGjhz8n69GLePghV/qsf5354BVT0ut0fw9bLRVd5LJ0Zqy2ciYeEdJw+oIDjUaBRSSnwJTC60ow/5aR2NIYdF8lX1tiwrc2baZVvq/Y8JnqkDrPqKMe0lLmbTpSSu21+Xd9KFciAev2/TlYeZWfGAf7qmeqFjB24oZg6wdw9G0GQ9X5fMyCfqUPEntkWLe1puXfVK9HRHfmHjzmajqIrlUAub84k5lP/A8/E7Bs7RxvRzz6HFyZhqCrWCsdxXZghyFAgMBAAECggEBAIz7P1pJwNey6WVRjOBPLKOXxZY7IskkPX8OIvDB6f4ZyHJfuk+VSZg1YmDP7cfbrK6hc1UiZR/s9P1mJq5ufnf2zFyhVomvan7GRCwnO1UfCexZ42p83XQ/CdsMHuGIWVviYClXwsPKtmVsBnbDIUIhVYNONlNWXRHNbtxRbarnnOL+P8ZWBf372lcKbrR3gSceC7V2reoab05kCrYii7v9eI1C7hroQ6YJIiiMy/YeDRWwiDtatVqh7lZVIz88llEMP4iLfxlcj0QcQOpeuEchCiEOeC53dA8nV3SU0TsqNQ4fPIbJtgait/IIJ+9auAgu9DYla0aKR5UZ7shrJWECgYEA3LmNrwcMT+ACGx+84RVF0TvpJBNd2QeU1wZ18zEKPoM1yVVtDj+y2twRz/uhfIooURMMU7KDkx1decVs3r/hPjlnyzihjZy2mEzeXiM2x+f9tvBD5OzLpl2/HocSg2JapuPpWLWPOzHu/TkOwbchpukWO01bbyOTuFP7JEpM2L0CgYEA2lXTsLxq8zabZ/DejOn64Sh3WzoRm2Lr1BTD5Az/TeOdLtuSO7eNrSdQzlynnUaOXj4P2qp8FLqxnJtIZ3gjfN0n6KOYp0abZNC8FrgcWN5IfGfHAJPPhDa61IPpU9C6J8IzJlb7llCPXNkpQQg3SdFDnOLmtC0TwKpNgzXvA2kCgYAh+c39azBR+0FXu4Lvgr7Eflxc2T5Q8gHPN4dgb+QLy1a0LxoiX1vApK95PFqXOQ0Lrcrv90KZmqOQ4vrnLtIVKfD4Lzdu/Ph+aRaxluoPy34actGAo5KVgUiyAkivQKyDlAGPTiNGEWGgSPAkkXP0pVxutHGmoetTLFo0M9uwYQKBgDwWKrAU6ooMmTA9xcGaEwUsEcz1aisNSkGPhWmZehmBbpyaqN/uX/srOr3QGgDajgu5oLtY99TsnDyxL3fqRDn00yre+v/uGo3gNCM8f/ClG+XA2a96/j0worIhq3D5nIGcnF8MyShQ+2NeEFBpZm3WPXlLqJolXa5EMBjQGvshAoGBAL/SRVOajz6QIw4IL1jcf16PEqbACzaa555qqtjAOI2cAWLmtVjCmRQHW0e/DjyzMkIqJffkpQihcbSraIonZt8NnESLAZSJv3WajE+9e1Jh+HPvY9Mj5wx+EZnrv0AVet9LGxhJm3AgwjPy9pKJLzisrE/Cn/MROZadPWUWwrAc";
     static String clientPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA7ZUg5hbqP6XqhOJtUrENyxdrS57u6qbjsMU7/TQr2QnRiXv9A3fs2Ks/cbQuu97O9O1XjqEhDnfPUi75ySuJxufqsGiCEpmrS39IeDObdBAU9/FRPTFjh4gvGAaJzVtI6DcfC+xBHgJDxZ39hPEfGo0FEfu2WTiWeRA/pA9NCZdpdf26Mx/uDTmlOv0R1RkAWj8IYEn3rYOXSfeDkXoqv2ytwMmKfSsuB89fZGfUpyZpfMtixQqeCna/mhKSwk3/YVsSEcFpRwNNtRqHyLzCklD9bqPaMqWkwy1rWqDchto4Y5s7pqh8edcRiLh5XnCJUeimtJfE/XOjfx4Ie66aIwIDAQAB";
 
     // 云帐房 的公钥;
     static String serverPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzLzlqZposiamvLtTbvTrM4SYiAp/LPn6tA7k7ZehQ7m+KWO/HuyLhzE3YuBujlo6K/x8YHObPI34a5bvDDJr86U/LdXgBePL4NnmLstrAMCOIBNUDcVGE+a+vahRlcfzn8A8rqtWa78s7LX4UMajU6QcBtX5eLSL8Zwu2RU3IRmbs6uoG5YoNddBid+apEKYE8udRugCtaB/LMAFXSoCE7+r2t5QOYf1REM8vgdgy2LevW0QP84J+ozkcED7KO13aYdLnBnB4Aq1JOKZYOKLXooCgCNPNHAdhOqHS2mWiQqS/9eGmvZdJKgAI9FZz08YC9OYekg2HaV2r8r6kNoeRQIDAQAB";
-    static String serverPrivateKey = "masked";
 
     /**
      * 本demo 引入的 工具包:
@@ -109,7 +112,7 @@ public class RequestDemo {
         String sign = jsonObject.getString("sign");
 
         // 获取真实 aesKey
-        byte[] decryptAesKey = SecureUtil.rsa(serverPrivateKey, null).decrypt(encryptAesKey, KeyType.PrivateKey);
+        byte[] decryptAesKey = SecureUtil.rsa("服务器私钥", null).decrypt(encryptAesKey, KeyType.PrivateKey);
         // 使用aesKey 解密出 data;
         String decryptContent = SecureUtil.aes(decryptAesKey).decryptStr(data);
         // 验证签名;
