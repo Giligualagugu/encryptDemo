@@ -14,6 +14,9 @@ import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.nio.charset.StandardCharsets;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.NoSuchAlgorithmException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,6 +30,7 @@ public class RequestDemo {
 
     // 云帐房 的公钥;
     static String serverPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzLzlqZposiamvLtTbvTrM4SYiAp/LPn6tA7k7ZehQ7m+KWO/HuyLhzE3YuBujlo6K/x8YHObPI34a5bvDDJr86U/LdXgBePL4NnmLstrAMCOIBNUDcVGE+a+vahRlcfzn8A8rqtWa78s7LX4UMajU6QcBtX5eLSL8Zwu2RU3IRmbs6uoG5YoNddBid+apEKYE8udRugCtaB/LMAFXSoCE7+r2t5QOYf1REM8vgdgy2LevW0QP84J+ozkcED7KO13aYdLnBnB4Aq1JOKZYOKLXooCgCNPNHAdhOqHS2mWiQqS/9eGmvZdJKgAI9FZz08YC9OYekg2HaV2r8r6kNoeRQIDAQAB";
+    static String serverPrivateKey = "masked";
 
     /**
      * 本demo 引入的 工具包:
@@ -41,6 +45,9 @@ public class RequestDemo {
         sendRequest();
     }
 
+    /**
+     * 请求方 发送测试请求到云帐房服务器;
+     */
     private static void sendRequest() {
         System.out.println("模拟客户端发送:");
         Map<String, Object> map = new HashMap<>();
@@ -90,6 +97,67 @@ public class RequestDemo {
                 System.out.println("client验签结果:" + verfiy);
             }
         }
+    }
+
+    /**
+     * 服务器处理request 仅参考;
+     */
+    private static void handleRequest(String requestBody) {
+        JSONObject jsonObject = JSONObject.parseObject(requestBody);
+        String data = jsonObject.getString("data");
+        String encryptAesKey = jsonObject.getString("aesKey");
+        String sign = jsonObject.getString("sign");
+
+        // 获取真实 aesKey
+        byte[] decryptAesKey = SecureUtil.rsa(serverPrivateKey, null).decrypt(encryptAesKey, KeyType.PrivateKey);
+        // 使用aesKey 解密出 data;
+        String decryptContent = SecureUtil.aes(decryptAesKey).decryptStr(data);
+        // 验证签名;
+        boolean verify = SecureUtil.sign(SignAlgorithm.MD5withRSA, null, clientPublicKey)
+                .verify(decryptContent.getBytes(StandardCharsets.UTF_8), Base64Decoder.decode(sign));
+
+    }
+
+    /**
+     * 服务器处理response 仅参考;
+     */
+    private static void handleResponse() {
+        String responseJson = "haha i am response";
+        // 先计算签名, 后加密数据;
+        byte[] signByteRes = SecureUtil.sign(SignAlgorithm.MD5withRSA, "服务器的私钥", null).sign(responseJson.getBytes(StandardCharsets.UTF_8));
+        String responseSign = Base64Encoder.encode(signByteRes);
+
+        // 生成aesKey 加密数据;
+        String serverAesKey = Base64Encoder.encode(KeyUtil.generateKey("AES").getEncoded());
+        String encryptResponse = SecureUtil.aes(Base64Decoder.decode(serverAesKey)).encryptBase64(responseJson);
+
+        // 加密aesKey 自己
+        String encryptedServerAesKey = SecureUtil.rsa(null, "请求方的公钥").encryptBase64(Base64Decoder.decode(serverAesKey), KeyType.PublicKey);
+
+        //封装 responseBody;
+        Map<String, Object> response = new HashMap<>();
+        response.put("code", "0");
+        response.put("sign", responseSign);
+        response.put("aesKey", encryptedServerAesKey);
+        response.put("message", "ok");
+        response.put("result", encryptResponse);
+
+
+    }
+
+    /**
+     * 使用java 生成RSA 公钥和私钥
+     */
+    private static void initRsaKey() throws NoSuchAlgorithmException {
+        // 默认生成2048长度的秘钥
+        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+        keyPairGenerator.initialize(1024);
+        // 模拟生成客户端的rsa秘钥对;
+        KeyPair clientKeyPair = keyPairGenerator.generateKeyPair();
+        String clientPrivateKey = Base64Encoder.encode(clientKeyPair.getPrivate().getEncoded());
+        String clientPublicKey = Base64Encoder.encode(clientKeyPair.getPublic().getEncoded());
+        System.out.println("client公钥:" + clientPublicKey);
+        System.out.println("client私钥:" + clientPrivateKey);
     }
 
     private static class ServerRequestDTO {
