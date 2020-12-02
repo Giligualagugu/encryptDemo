@@ -22,6 +22,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * 此demo代码仅供参考
+ *
  * 请求方 initRsaKey() 生成公钥和私钥,  公钥提供给云帐房 生成对应的token和 云帐房公钥;
  */
 public class RequestDemo {
